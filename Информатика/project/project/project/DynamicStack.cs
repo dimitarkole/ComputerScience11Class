@@ -4,7 +4,7 @@ using System.Text;
 
 namespace project
 {
-    class DinamicStack<T>
+    class DynamicStack<T>
     {
         private class Node
         {
@@ -27,7 +27,7 @@ namespace project
         private Node top;
         private int count;
 
-        public DinamicStack()
+        public DynamicStack()
         {
             this.top = null;
             this.count = 0;
