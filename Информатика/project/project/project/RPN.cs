@@ -18,26 +18,26 @@ namespace project
             DynamicStack<char> stack = new DynamicStack<char>();
             string str = this.Expression.Replace(" ", string.Empty);
             StringBuilder formula = new StringBuilder();
-            for (int i = 0; i < str.Length; i++)
+
+            foreach (var element in str)
             {
-                char x = str[i];
-                if (x == '(')
-                    stack.Push(x);
-                else if (x == ')')
+                if (element == '(')
+                    stack.Push(element);
+                else if (element == ')')
                 {
                     while (stack.Count > 0 && stack.Peek() != '(')
                         formula.Append(stack.Pop());
                     stack.Pop();
                 }
-                else if (IsOperandus(x))
+                else if (IsOperandus(element))
                 {
-                    formula.Append(x);
+                    formula.Append(element);
                 }
-                else if (IsOperator(x))
+                else if (IsOperator(element))
                 {
-                    while (stack.Count > 0 && stack.Peek() != '(' && Prior(x) <= Prior(stack.Peek()))
+                    while (stack.Count > 0 && stack.Peek() != '(' && Prior(element) <= Prior(stack.Peek()))
                         formula.Append(stack.Pop());
-                    stack.Push(x);
+                    stack.Push(element);
                 }
                 else
                 {
