@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace project
@@ -53,6 +56,40 @@ namespace project
             return formula.ToString();
         }
 
+        public double EvaluateExpression()
+        {
+            var letters = this.Expression.Select(x => IsOperandus(x) == true ? x : ' ' ).GroupBy(x => x).Select(y => y.First()).OrderBy(x=>x).ToList();
+            var expressionWithNumbers = "";
+            var valuetsOfLetters = new List<double>();
+            foreach (var letter in letters)
+            {
+                if(letter!= ' ')
+                {
+                    Console.WriteLine($"{letter} = ");
+                    var value = double.Parse(Console.ReadLine());
+                    valuetsOfLetters.Add(value);
+                }
+             
+            }
+
+            foreach (var letter in this.Expression)
+            {
+                if(IsOperandus(letter))
+                {
+                    var value = valuetsOfLetters[letters.IndexOf(letter)-1];
+                    expressionWithNumbers += value;
+                }
+                else
+                {
+                    expressionWithNumbers += letter;
+                }
+            }
+            Console.WriteLine("expresionWithNumbers = "+ expressionWithNumbers);
+            var evaluateExpression = this.Evaluate1(expressionWithNumbers);
+            return evaluateExpression;
+        }
+
+
         private bool IsOperator(char c)
         {
             return (c == '-' || c == '+' || c == '*' || c == '/');
@@ -82,6 +119,22 @@ namespace project
                 default:
                     throw new ArgumentException("Rossz parameter");
             }
+        }
+
+        private double Evaluate1(string expression)
+        {
+            return (double)new System.Xml.XPath.XPathDocument
+            (new StringReader("<r/>")).CreateNavigator().Evaluate
+            (string.Format("number({0})", new
+            System.Text.RegularExpressions.Regex(@"([\+\-\*])")
+            .Replace(expression, " ${1} ")
+            .Replace("/", " div ")
+            .Replace("%", " mod ")));
+        }
+
+        private double Evaluate(string expression)
+        {
+            return Convert.ToDouble(new DataTable().Compute(expression, null));
         }
     }
 }
