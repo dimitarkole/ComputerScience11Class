@@ -17,9 +17,9 @@ namespace project
             string str = Console.ReadLine();
             RPN rPN = new RPN(str);
             var result = rPN.LengyelFormaKonvertalas();
-            var evaluateExpression= rPN.EvaluateExpression();
+            //var evaluateExpression= rPN.EvaluateExpression();
             Console.WriteLine(result);
-            Console.WriteLine(evaluateExpression);
+            //Console.WriteLine(evaluateExpression);
         }
 
       
